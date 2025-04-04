@@ -1,0 +1,44 @@
+<h2>Lista dokumentów</h2>
+<div class="flex items-center gap-4 mb-2">
+    <button (click)="prevPage()" [disabled]="skip === 0" class="p-2 rounded bg-gray-300">
+      ◀
+    </button>
+  //TODO: dodac wyszukiwanie, opcje pobrania całej tabeli, poprawic przyciski lewo prawo bo nie aktualizuje się total liczba po uploadzie
+    <p class="font-semibold">
+        Wyświetlane dokumenty: {{ currentStart }} – {{ currentEnd }} z {{ documentsCount }}
+    </p>
+  
+    <button (click)="nextPage()" [disabled]="skip + take >= documentsCount" class="p-2 rounded bg-gray-300">
+      ▶
+    </button>
+  </div>
+<table class="table table-striped table-bordered">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Typ</th>
+      <th>Data</th>
+      <th>Imię</th>
+      <th>Nazwisko</th>
+      <th>Miasto</th>
+      <th>Pozycje</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let doc of documents">
+      <td>{{ doc.documentId }}</td>
+      <td>{{ doc.type }}</td>
+      <td>{{ doc.date }}</td>
+      <td>{{ doc.firstName }}</td>
+      <td>{{ doc.lastName }}</td>
+      <td>{{ doc.city }}</td>
+      <td>
+        <ul>
+          <li *ngFor="let item of doc.documentItems">
+            {{ item.ordinal }}. {{ item.product }} ({{ item.quantity }} x {{ item.price }} zł, VAT: {{ item.taxRate }}%)
+          </li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
