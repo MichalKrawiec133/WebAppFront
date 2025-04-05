@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ImportCsvService } from '../../services/import-csv.service';
 import { NgIf } from '@angular/common';
+import { DocumentsCountService } from '../../services/documents-count.service';
 @Component({
   selector: 'app-import',
   standalone: true,
@@ -14,7 +15,9 @@ export class ImportComponent {
   documentItemsFile: File | null = null;
   errorMessage: string = '';
   filesSent: string = '';
-  constructor(private importCsvService: ImportCsvService) {}
+  constructor(
+    private importCsvService: ImportCsvService
+  ) {}
 
   onFileSelected(event: any, type: 'documents' | 'items') {
     const file: File = event.target.files[0];
@@ -41,7 +44,8 @@ export class ImportComponent {
         next: () => this.filesSent = 'Przesłano pliki.',
         error: () => this.errorMessage = 'Błąd podczas przesyłania.'
       });
-  }
 
+  }
+//TODO: dodac aktualizacje pierwszych 50 dokumentow po wysłaniu nowych plikow do pustej bazy, dodac wyszukiwanie.
 
 }
