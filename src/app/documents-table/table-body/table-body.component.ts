@@ -61,9 +61,13 @@ export class TableBodyComponent {
   
   clearDatabase(): void {
     this.importCSVService.clearDatabase().subscribe(() => {
+      this.skip = 0;
+      this.documents = [];
       this.importCSVService.getDocumentsCount().subscribe(count => {
         this.documentsCountService.updateDocumentsCount(count);
-        this.loadDocuments();
+        
+        this.currentStart = 0;
+        this.currentEnd = 0;
       });
     });
   }
