@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { ImportCsvService } from '../../services/import-csv.service';
 import { NgIf } from '@angular/common';
-import { DocumentsCountService } from '../../services/documents-count.service';
+
 @Component({
   selector: 'app-import',
   standalone: true,
@@ -10,7 +10,7 @@ import { DocumentsCountService } from '../../services/documents-count.service';
   styleUrl: './import.component.css'
 })
 export class ImportComponent {
-
+  @Output() importCompleted = new EventEmitter<void>();
   documentsFile: File | null = null;
   documentItemsFile: File | null = null;
   errorMessage: string = '';
@@ -34,18 +34,18 @@ export class ImportComponent {
   }
 
   importFiles() {
-    if (!this.documentsFile || !this.documentItemsFile) {
-      this.errorMessage = 'Przesłane muszą być dwa pliki.';
-      return;
+    if (this.documentsFile && this.documentItemsFile) {
+      this.importCsvService.importFiles(this.documentsFile, this.documentItemsFile).subscribe({
+        next: () => {
+          this.importCompleted.emit(); 
+        },
+        error: (err) => {
+          
+        }
+      });
     }
 
-    this.importCsvService.importFiles(this.documentsFile, this.documentItemsFile)
-      .subscribe({
-        next: () => this.filesSent = 'Przesłano pliki.',
-        error: () => this.errorMessage = 'Błąd podczas przesyłania.'
-      });
-
   }
-//TODO: dodac aktualizacje pierwszych 50 dokumentow po wysłaniu nowych plikow do pustej bazy, dodac wyszukiwanie.
+
 
 }

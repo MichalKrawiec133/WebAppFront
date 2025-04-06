@@ -25,6 +25,16 @@ export class ImportCsvService {
       })
     );
   }
+  deleteDocument(documentId: number): Observable<void> {
+    return this.http.delete<void>(this.apiUrl + "/" + documentId);
+  }
+  
+  getDocumentsSearch(field: string, value: string): Observable<Documents[]> {
+    return this.http.get<Documents[]>(this.apiUrl+"/GetDocuments/Search", {
+      params: { field, value }
+    });
+  }
+
   clearDatabase(): Observable<void> {
     return this.http.delete<void>(this.apiUrl + "/ClearDatabase");
   }
